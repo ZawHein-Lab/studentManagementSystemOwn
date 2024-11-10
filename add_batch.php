@@ -2,28 +2,51 @@
 
 <?php 
         $description =  $fees = $end_date = $start_date = $batch_name = $teacher_id = $class_id ="";
-        $description_err = $fees_err = $end_date_err = $start_date_err = $batch_name_err =$teacher_id_err = $class_id_err= "";
+        $description_err=$end_date_err_msg=$start_date_err_msg = $fees_err = $end_date_err = $start_date_err = $batch_name_err =$teacher_id_err = $class_id_err= "";
+       
     if($_SERVER['REQUEST_METHOD'] == "POST"){
         //form input value
-        $batch_name = $_POST['batch_name'];
+        global $batch_name;
+         $batch_name = $_POST['batch_name'];
         $start_date = $_POST['start_date'];
         $end_date = $_POST['end_date'];
         $fees = $_POST['fees'];
         $description =  $_POST['description'];
         $class_id = $_POST['class_id'];
         $teacher_id = $_POST['teacher_id'];
-        // echo $teacher_id;
-
+        // echo $start_date;
+        // echo $end_date;
+        $date = Date("Y-m-d");
+// echo $date;
         //make validation
+        
+        $unique = get_unique_name($mysqli,$batch_name);
+        if(!isset($unique['batch_name'])){
+        }else{
+            if($unique['batch_name'] === $batch_name){
+                $batch_name_err = "Please enter unique batch name..";
+            }
+        }
+        if($date >= $start_date){
+            $start_date_err_msg = "Start date must be greater than of Today Date";
+            // $checkStartDate = False;
+            // var_dump("Start date true");
+        }
         if($description === ""){
             $description_err = "Please enter description ..";
         }
         if($fees === ""){
             $fees_err = "Please enter fees ..";
         }
+        
         if($start_date === ""){
             $start_date_err = "Please enter start date ..";
         }
+        if($start_date > $end_date){
+            $end_date_err_msg = "End date must be greater than start date";
+            // $checkDate = False;
+        }
+       
         if($end_date === ""){
             $end_date_err = "Please enter end date ..";
         }
@@ -36,7 +59,7 @@
         if($teacher_id === ""){
             $teacher_id_err = "Please select teacher name..";
         }
-        if( $description_err == "" && $fees_err == "" && $end_date_err == "" && $start_date_err == "" && $batch_name_err == "" && $teacher_id_err == "" && $class_id_err== ""){
+        if($end_date_err_msg == "" && $start_date_err_msg == "" && $description_err == "" && $fees_err == "" && $end_date_err == "" && $start_date_err == "" && $batch_name_err == "" && $teacher_id_err == "" && $class_id_err== ""){
             // echo "True";
             if(add_batch($mysqli,$batch_name,$start_date,$end_date,$fees,$description,$teacher_id,$class_id)){
                 // echo True;
@@ -64,7 +87,7 @@
                             <option value="">Select teacher</option>
                             <?php  $teacher_list = get_all_teacher($mysqli); 
                            while($teacher = $teacher_list->fetch_assoc()){ ?>
-                            <option value="<?= $teacher['teacher_id'] ?>"  <?php if($teacher['teacher_id'] == $teacher_id) echo "selected" ?>  ><?= $teacher['teacher_name'] ?></option>
+                           <option value="<?= $teacher['teacher_id'] ?>"  <?php if($teacher['teacher_id'] == $teacher_id) echo "selected" ?>  ><?= $teacher['teacher_name'] ?></option>
                        <?php } ?>
                         </select>
                         <span class="text-danger"><?php if($teacher_id_err) echo $teacher_id_err ?></span>
@@ -86,11 +109,14 @@
                         <label for="start_date">Start Date</label>
                         <input type="date" name="start_date" value="<?=$start_date ?>" id="start_date" class="form-control">
                         <span class="text-danger"><?php if($start_date_err) echo $start_date_err ?></span>
+                        <span class="text-danger"><?php if($start_date_err_msg) echo $start_date_err_msg ?></span>
+
                     </div>
                     <div class="form-group col-6">
                         <label for="end_date">End Date</label>
                         <input type="date" name="end_date" value="<?= $end_date ?>" id="end_date" class="form-control">
                         <span class="text-danger"><?php if($end_date_err) echo $end_date_err ?></span>
+                        <span class="text-danger"><?php if($end_date_err_msg) echo $end_date_err_msg ?></span>
                     </div>
                 </div>
                 <div class="form-group my-1">

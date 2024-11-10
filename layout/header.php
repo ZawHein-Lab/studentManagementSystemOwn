@@ -26,8 +26,10 @@
                 <nav class="nav-bar">
                     <div class="left-nav">
                         <div class="leftNav-item">
+                            <form action="" method="post">
                             <i class="bi bi-search fs-5 ms-2"></i>
-                            <input type="text" placeholder="Search">
+                            <input type="text" placeholder="Search" name="search">
+                            </form>
                         </div>
                     </div>
                     <div class="right-nav">

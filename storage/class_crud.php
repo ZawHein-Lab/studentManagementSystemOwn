@@ -36,3 +36,7 @@ function count_class($mysqli)
 //     $sql = "SELECT DISTINCT(`class`.`class_name`) from `batch` join `class` on `batch`.`class_id` = `class`.`class_id` ";
 //     return $mysqli->query($sql);
 // }
+function search_class($mysqli,$search){
+    $sql = "SELECT * FROM `class` WHERE class_name LIKE '%$search%' OR description LIKE '%$search%'";
+    return $mysqli->query($sql);
+}

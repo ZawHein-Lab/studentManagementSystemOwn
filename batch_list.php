@@ -22,6 +22,11 @@
             </thead>
             <tbody>
                  <?php $i=1; $joinTable = join_with_class_teacher($mysqli);
+                   if(isset($_POST['search'])){
+                    // var_dump($_POST['search']);
+                    $search = $_POST['search'];
+                    $joinTable =   search_batch_with_class_teacher($mysqli,$search);
+                };
                 while($result = $joinTable->fetch_assoc()){?>
                 <tr>
                     <td><?= $i ?></td>

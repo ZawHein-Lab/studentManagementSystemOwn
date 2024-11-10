@@ -10,6 +10,12 @@ if (isset($_GET['deleteClass_id'])) {
     $deleteFail = "Cann't delete +Class record";
   }
 }
+// if(isset($_POST['search'])){
+//   $search_key =$_POST['search'];
+//   if(isset($search_key)){
+//     var_dump($search_key);
+//   }
+// }
 ?>
 <h2 class="title">Class</h2>
 <?php if ($deleteSuccess !== "") { ?>
@@ -39,8 +45,14 @@ if (isset($_GET['deleteClass_id'])) {
         </tr>
       </thead>
       <tbody>
+      
         <?php $class_list = get_all_class($mysqli);
         $i = 1;
+        if(isset($_POST['search'])){
+          // var_dump($_POST['search']);
+          $search = $_POST['search'];
+          $class_list =  search_class($mysqli,$search);
+      }
         while ($class = $class_list->fetch_assoc()) { ?>
           <tr>
             <td><?= $i ?></td>

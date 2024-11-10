@@ -43,6 +43,11 @@ if (isset($_GET['delete_id'])) {
       <tbody>
         <?php $student_list = get_all_student($mysqli);
         $i = 1; ?>
+      <?php  if(isset($_POST['search'])){
+                    // var_dump($_POST['search']);
+                    $search = $_POST['search'];
+                    $student_list =  search_student($mysqli,$search);
+                }?>
         <?php while ($student = $student_list->fetch_assoc()) { ?>
           <tr>
             <td><?= $i ?></td>

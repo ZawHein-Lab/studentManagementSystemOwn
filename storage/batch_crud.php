@@ -48,4 +48,12 @@
         $sql = "DELETE FROM attendance where student_batch_id = $last_student_batch_id";
         return $mysqli->query($sql);
     }
-?>
+    function get_unique_name($mysqli,$batch_name){
+        $sql = "SELECT batch_name FROM `batch` WHERE batch_name LIKE '%$batch_name%'";
+        $student_batch_id =  $mysqli->query($sql);
+        return $student_batch_id->fetch_assoc();
+    }
+    function search_batch_with_class_teacher($mysqli,$search){
+        $sql =  "SELECT batch.*, class.class_name as CLASS_NAME, teacher.teacher_name as TEACHER_NAME FROM `batch` join class on batch.class_id = class.class_id join teacher on batch.teacher_id = teacher.teacher_id WHERE batch_name LIKE '%$search%' OR teacher_name LIKE '%$search%' OR class_name LIKE '%$search%' OR fees LIKE '%$search%' OR start_date LIKE '%$search%' OR end_date LIKE '%$search%'";
+        return $mysqli->query($sql);
+       }

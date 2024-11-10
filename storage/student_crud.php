@@ -59,3 +59,9 @@ function get_class_from_batch($mysqli)
     $sql = "SELECT DISTINCT class.* from batch JOIN class on batch.class_id = class.class_id";
     return $mysqli->query($sql);
 }
+// query data for search bar
+
+function search_student($mysqli,$search){
+    $sql = "SELECT * FROM `student` WHERE student_name LIKE '%$search%' OR student_email LIKE '$search%@gmail.com' ";
+    return $mysqli->query($sql);
+}

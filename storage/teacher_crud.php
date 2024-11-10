@@ -32,3 +32,7 @@ function count_teacher($mysqli)
     $sql = "SELECT COUNT(`teacher_id`) as number_of_teacher FROM `teacher`";
     return $mysqli->query($sql);
 }
+function search_teacher($mysqli,$search){
+    $sql = "SELECT * FROM `teacher` WHERE teacher_name LIKE '%$search%' OR teacher_email LIKE '$search%@gmail.com' OR teacher_experience LIKE '%$search%'";
+    return $mysqli->query($sql);
+}
